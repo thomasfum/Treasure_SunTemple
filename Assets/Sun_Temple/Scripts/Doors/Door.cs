@@ -14,6 +14,11 @@ namespace SunTemple
         public float RotationSpeed = 1f;
         public float MaxDistance = 3.0f;
 		public string playerTag = "Player";
+
+		public bool debug = false;
+		private float fire_start_time = 0;
+		float  MaxDistance_update = 5.0f;
+
 		private Collider DoorCollider;
 
 		private GameObject Player;
@@ -61,9 +66,12 @@ namespace SunTemple
 			if (cursor != null) {
 				cursor.SetCursorToDefault ();
 			}
+			fire_start_time = 0;
+			MaxDistance_update = MaxDistance * 1.2f;
 
-					
-        }
+
+
+		}
 
 
 
@@ -90,14 +98,20 @@ namespace SunTemple
 
 
 		void TryToOpen(){
-			if (Mathf.Abs(Vector3.Distance(transform.position, Player.transform.position)) <= MaxDistance){	
+			if (Mathf.Abs(Vector3.Distance(transform.position, Player.transform.position)) <= MaxDistance_update)
+			{	
 
-				Ray ray = Cam.ScreenPointToRay (new Vector3 (Screen.width / 2, Screen.height / 2, 0));
+				//Ray ray = Cam.ScreenPointToRay (new Vector3 (Screen.width / 2, Screen.height / 2, 0));
 				RaycastHit hit;
-											
-				if (DoorCollider.Raycast(ray, out hit, MaxDistance)){					
-					if (IsLocked == false){
-						Activate ();
+				//if (DoorCollider.Raycast(ray, out hit, MaxDistance_update))
+				if (Physics.Raycast(Cam.transform.position, Cam.transform.forward, out hit, MaxDistance_update))
+				{
+					if (hit.transform.gameObject == this.gameObject)
+					{
+						if (IsLocked == false)
+						{
+							Activate();
+						}
 					}
 				}
 			}
@@ -106,20 +120,75 @@ namespace SunTemple
 
 
 		void CursorHint(){
-			if (Mathf.Abs(Vector3.Distance(transform.position, Player.transform.position)) <= MaxDistance){	
-				Ray ray = Cam.ScreenPointToRay (new Vector3 (Screen.width / 2, Screen.height / 2, 0));
+
+			float d = Mathf.Abs(Vector3.Distance(transform.position, Player.transform.position));
+			if (debug == true)
+				Debug.Log("D="+d);
+			if (d <= MaxDistance_update)
+			{
+
+				//Ray ray = Cam.ScreenPointToRay (new Vector3 (Screen.width / 2, Screen.height / 2, 0));
+				Ray ray = new Ray(Cam.transform.position, Cam.transform.forward);
+
 				RaycastHit hit;
 
-				if (DoorCollider.Raycast (ray, out hit, MaxDistance)) {
-					if (IsLocked == false) {
-						cursor.SetCursorToDoor ();
-					} else if (IsLocked == true) {
-						cursor.SetCursorToLocked ();
-					}					
-				} else {
-					cursor.SetCursorToDefault ();
+				//if (DoorCollider.Raycast (ray, out hit, MaxDistance_update)) 
+				//if (Physics.Raycast(Player.transform.position, Cam.transform.forward, out hit, MaxDistance_update*2))
+				if (DoorCollider.Raycast (ray, out hit, MaxDistance_update)) 
+				{
+					//if (debug == true)
+					//	Debug.Log(hit.transform.gameObject.name + "-" + this.gameObject.name);
+					//if (hit.transform.gameObject == this.gameObject)
+					//{
+						if (IsLocked == false)
+						{
+							//Debug.Log("------------>Open");
+							cursor.SetCursorToDoor();
+							Player.GetComponent<CharController_Motor>().AllowMove(false);
+							if(fire_start_time==0)
+								fire_start_time = Time.time;
+						}
+						else if (IsLocked == true)
+						{
+							//Debug.Log("------------>Locked");
+							cursor.SetCursorToLocked();
+							Player.GetComponent<CharController_Motor>().AllowMove(false);
+							fire_start_time = 0;
+						}
+						/*
+					}
+					else
+					{
+						Debug.Log("------------>Default"+ hit.transform.gameObject.name);
+						cursor.SetCursorToDefault();
+						Player.GetComponent<CharController_Motor>().AllowMove(true);
+						fire_start_time = 0;
+					}
+						*/
+				}
+				else
+				{
+					cursor.SetCursorToDefault();
+					Player.GetComponent<CharController_Motor>().AllowMove(true);
+					fire_start_time = 0;
+				}
+				if (debug == true)
+					Debug.Log("time="+ fire_start_time);
+				if (fire_start_time != 0)
+				{
+					if (Time.time - fire_start_time > 0.8f)
+					{
+						//Debug.Log("------------>open");
+
+						if (IsLocked == false)
+						{
+							Activate();
+						}
+						fire_start_time = 0;
+					}
 				}
 			}
+
 		}
 
 

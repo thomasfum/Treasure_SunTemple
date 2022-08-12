@@ -19,6 +19,7 @@ using TMPro;
 		public TextMeshProUGUI textMeshProUGUI_Debug;
 		private Vector2 currentRotation;
 		public float maxYAngle = 80f;
+		private bool allowMove=true;
 		//string debugText;
 
 
@@ -47,7 +48,10 @@ using TMPro;
 		}
 
 
-
+		public void AllowMove(bool _allow)
+		{
+			allowMove = _allow;
+		}
 
 
 		void FixedUpdate(){
@@ -68,7 +72,8 @@ using TMPro;
 				Vector3 dir = (cam.transform.forward * angle*speed / 50);
 				dir.y = 0;
 				//transform.position += dir;
-				character.Move(dir * Time.fixedDeltaTime);
+				if(allowMove== true)
+					character.Move(dir * Time.fixedDeltaTime);
 			}
 			else
 			{
@@ -109,7 +114,7 @@ using TMPro;
 
 
 
-
+		/*
 	
 
 		void CameraRotation(GameObject cam, float rotHorizontal, float rotVertical){	
@@ -130,7 +135,7 @@ using TMPro;
 
 		}
 
-
+		*/
 
 
 	}
