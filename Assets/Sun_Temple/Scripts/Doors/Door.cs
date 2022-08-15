@@ -172,11 +172,13 @@ namespace SunTemple
 					Player.GetComponent<CharController_Motor>().AllowMove(true);
 					fire_start_time = 0;
 				}
-				if (debug == true)
-					Debug.Log("time="+ fire_start_time);
+				//if (debug == true)
+				//	Debug.Log("time="+ fire_start_time);
 				if (fire_start_time != 0)
 				{
-					if (Time.time - fire_start_time > 0.8f)
+
+					cursor.SetProress((Time.time - fire_start_time )* 100);
+					if (Time.time - fire_start_time > 1f)
 					{
 						//Debug.Log("------------>open");
 

@@ -20,6 +20,7 @@ using TMPro;
 		private Vector2 currentRotation;
 		public float maxYAngle = 80f;
 		private bool allowMove=true;
+		private bool allowMoveNext = false;
 		//string debugText;
 
 
@@ -50,7 +51,12 @@ using TMPro;
 
 		public void AllowMove(bool _allow)
 		{
-			allowMove = _allow;
+			//allowMove = _allow;
+			if (_allow == true)
+				allowMoveNext = true;
+			else
+				allowMove = false;
+
 		}
 
 
@@ -62,7 +68,14 @@ using TMPro;
 			rotHorizontal = Input.GetAxisRaw ("Mouse X") * sensitivity;
 			rotVertical = Input.GetAxisRaw ("Mouse Y") * sensitivity;
 
-
+			if (allowMoveNext == true)
+			{
+				if ((rotHorizontal != 0) || (rotVertical != 0))
+				{
+					allowMove = true;
+					allowMoveNext = false;
+				}
+			}
 			
 			float angle = cam.transform.rotation.eulerAngles.x;
 			if ((angle > 8) && (angle < 35))
