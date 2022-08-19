@@ -59,6 +59,7 @@
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Components\FxaaComponent.cs" />
     <Compile Include="Assets\Sun_Temple\Scripts\Doors\CircularLerp.cs" />
     <Compile Include="Assets\Sun_Temple\Scripts\Culling\DistanceHide.cs" />
+    <Compile Include="Assets\UJoystick\Content\Script\Core\bl_Joystick.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\Sun_Temple\Scripts\DisableRenderer.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Components\ChromaticAberrationComponent.cs" />
@@ -74,11 +75,14 @@
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Models\FogModel.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Components\TaaComponent.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Components\ScreenSpaceReflectionComponent.cs" />
+    <Compile Include="Assets\UJoystick\Content\Script\Internal\bl_JoystickUtils.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Models\VignetteModel.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Models\GrainModel.cs" />
+    <Compile Include="Assets\Sun_Temple\Scripts\Radar.cs" />
     <Compile Include="Assets\Sun_Temple\Scripts\Culling\TriggerArea.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\PostProcessingModel.cs" />
     <Compile Include="Assets\Sun_Temple\Scripts\Doors\Door.cs" />
+    <Compile Include="Assets\UJoystick\Example\Scrips\bl_ControllerExample.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\PostProcessingProfile.cs" />
     <Compile Include="Assets\Sun_Temple\Scripts\Culling\CullDistances.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Components\GrainComponent.cs" />
@@ -102,6 +106,7 @@
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Models\BuiltinDebugViewsModel.cs" />
     <Compile Include="Assets\Sun_Temple\Scripts\WindSwaySimple.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\PostProcessingComponent.cs" />
+    <Compile Include="Assets\Sun_Temple\Scripts\LevelManager.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Components\EyeAdaptationComponent.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Models\ChromaticAberrationModel.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Models\ColorGradingModel.cs" />
@@ -114,9 +119,11 @@
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Models\DepthOfFieldModel.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Components\AmbientOcclusionComponent.cs" />
+    <Compile Include="Assets\Pirates Chest\chest.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Models\AntialiasingModel.cs" />
     <Compile Include="Assets\Sun_Temple\Scripts\VrModeController.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Models\DitheringModel.cs" />
+    <Compile Include="Assets\Welcome.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -139,6 +146,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\TAA.cginc" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
+    <None Include="Assets\UJoystick\ReadMe.txt" />
     <None Include="Assets\Sun_Temple\PostProcessing\Editor Resources\Monitors\VectorscopeCompute.compute" />
     <None Include="Assets\Sun_Temple\Content\Shaders\VertexWind.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />

@@ -12,6 +12,7 @@ namespace SunTemple{
 		public Sprite defaultCursor;
 		public Sprite lockedCursor;
 		public Sprite doorCursor;
+		public Sprite chestCursor;
 
 		public GameObject progress;
 		public GameObject progressFill;
@@ -50,6 +51,13 @@ namespace SunTemple{
 			SpriteRendererprogressFill.enabled = true;
 		}
 
+
+		public void SetCursorToChest()
+		{
+			img.sprite = chestCursor;
+			SpriteRendererProgress.enabled = true;
+			SpriteRendererprogressFill.enabled = true;
+		}
 		public void SetCursorToDefault(){
 			img.sprite = defaultCursor;
 			SpriteRendererProgress.enabled = false;

@@ -21,8 +21,10 @@ using TMPro;
 		public float maxYAngle = 80f;
 		private bool allowMove=true;
 		private bool allowMoveNext = false;
+		bool firstMove = true;
 		//string debugText;
 
+		Quaternion prevRotation;
 
 		void Start(){
 			textMeshProUGUI_Debug.text = "";
@@ -43,7 +45,7 @@ using TMPro;
 				speed = speed * 0.5f; 
 				//textMeshProUGUI_Debug.text = "A";
 			}
-			
+			firstMove = true;
 
 
 		}
@@ -60,7 +62,14 @@ using TMPro;
 		}
 
 
-		void FixedUpdate(){
+		void FixedUpdate()
+		{
+			
+			if (firstMove == true)
+			{
+				firstMove = false;
+				character.SimpleMove(cam.transform.forward);
+			}
 			
 			moveFB = Input.GetAxis ("Horizontal") * speed;
 			moveLR = Input.GetAxis ("Vertical") * speed;
@@ -70,23 +79,26 @@ using TMPro;
 
 			if (allowMoveNext == true)
 			{
-				if ((rotHorizontal != 0) || (rotVertical != 0))
+				if ((rotHorizontal != 0) || (rotVertical != 0)|| (prevRotation != cam.transform.rotation))
 				{
 					allowMove = true;
 					allowMoveNext = false;
 				}
 			}
-			
+			prevRotation = cam.transform.rotation;
+
 			float angle = cam.transform.rotation.eulerAngles.x;
-			if ((angle > 8) && (angle < 35))
+			if ((angle > 8) && (angle < 38))
 			{
-				//moveLR = angle *speed / 50;
-				//textMeshProUGUI_Debug.text = "A=" + angle + " FB="+ moveFB + " LR=" + moveLR;
-				Vector3 dir = (cam.transform.forward * angle*speed / 50);
+				Vector3 dir=new Vector3();
+				if ((angle > 8) && (angle < 8+15))
+					dir = (cam.transform.forward * angle*speed / 50);
+				if ((angle >= 8+15) && (angle < 38))
+					dir = (cam.transform.forward * (38-angle) * speed / 50);
 				dir.y = 0;
-				//transform.position += dir;
+
 				if(allowMove== true)
-					character.Move(dir * Time.fixedDeltaTime);
+					character.SimpleMove(dir);
 			}
 			else
 			{

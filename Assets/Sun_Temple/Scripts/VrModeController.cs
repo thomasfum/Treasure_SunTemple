@@ -143,8 +143,8 @@ public class VrModeController : MonoBehaviour
     {
         if (XRGeneralSettings.Instance != null)
             StopXR();
-        Application.Quit();
-       // SceneManager.LoadScene("welcome", LoadSceneMode.Single);
+       //Application.Quit();
+        SceneManager.LoadScene("welcome", LoadSceneMode.Single);
     }
 
     /// <summary>
