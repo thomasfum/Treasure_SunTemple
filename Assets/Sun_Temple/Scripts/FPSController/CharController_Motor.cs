@@ -12,7 +12,7 @@ using TMPro;
 		public float sensitivity = 60.0f;
 		CharacterController character;
 		public GameObject cam;
-		float moveFB, moveLR;	
+		//float moveFB, moveLR;	
 		float rotHorizontal, rotVertical;
 		public bool webGLRightClickRotation = true;
 		float gravity = -9.8f;
@@ -22,7 +22,11 @@ using TMPro;
 		private bool allowMove=true;
 		private bool allowMoveNext = false;
 		bool firstMove = true;
+		private bool needPad = false;
 		//string debugText;
+
+		[SerializeField] private bl_Joystick Joystick;//Joystick reference for assign in inspector
+		[SerializeField] private float Speed = 5;
 
 		Quaternion prevRotation;
 
@@ -60,22 +64,79 @@ using TMPro;
 				allowMove = false;
 
 		}
-
+		float fps = 0;
+		void OnGUI()
+		{
+			fps = (9.0f * fps + 1.0f / Time.deltaTime) / 10.0f;
+			GUI.Label(new Rect(0, 0, 100, 50), "FPS: " + (int)fps);
+		}
 
 		void FixedUpdate()
 		{
-			
+
+#if UNITY_IOS || UNITY_ANDROID && !UNITY_EDITOR
+        if (XRGeneralSettings.Instance != null)
+        {
+            if (XRGeneralSettings.Instance.Manager.isInitializationComplete)
+            {
+                Joystick.gameObject.SetActive(false);
+                needPad = false;
+            }
+            else
+                needPad = true;
+        }
+#else
+			needPad = true;
+#endif
+
+
 			if (firstMove == true)
 			{
 				firstMove = false;
 				character.SimpleMove(cam.transform.forward);
 			}
 			
-			moveFB = Input.GetAxis ("Horizontal") * speed;
-			moveLR = Input.GetAxis ("Vertical") * speed;
+			//moveFB = Input.GetAxis ("Horizontal") * speed;
+			//moveLR = Input.GetAxis ("Vertical") * speed;
 
 			rotHorizontal = Input.GetAxisRaw ("Mouse X") * sensitivity;
 			rotVertical = Input.GetAxisRaw ("Mouse Y") * sensitivity;
+
+
+			//------------------------------------------------------------------------------------------------------
+			// Rotate camera with mouse in unity editor
+			if (Application.isEditor)
+			{
+				if (Input.GetMouseButton(1))
+				{
+					currentRotation.x += Input.GetAxis("Mouse X") * sensitivity/20;
+					currentRotation.y -= Input.GetAxis("Mouse Y") * sensitivity/20;
+					currentRotation.x = Mathf.Repeat(currentRotation.x, 360);
+					currentRotation.y = Mathf.Clamp(currentRotation.y, -maxYAngle, maxYAngle);
+					transform.rotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0);
+				}
+			}
+
+			
+			//------------------------------------------------------------------------------------------------------
+			// Rotate camera with pad
+			if (needPad == true)
+			{
+				float v = Joystick.Vertical; //get the vertical value of joystick
+				float h = Joystick.Horizontal;//get the horizontal value of joystick
+											  //Debug.Log("---> " + v + " , " + h);
+
+				currentRotation.x += h * Speed / 1.2f;//1.5 android??
+				currentRotation.y -= v * Speed / 1.2f;//1.5 android??
+													  //currentRotation.x = Mathf.Repeat(currentRotation.x, 360);
+				currentRotation.y = Mathf.Clamp(currentRotation.y, -maxYAngle, maxYAngle);
+
+				//Debug.Log("---> "  + h+ "= "+ currentRotation.x);
+
+				transform.rotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0);
+			}
+			
+
 
 			if (allowMoveNext == true)
 			{

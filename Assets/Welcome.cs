@@ -9,8 +9,12 @@ using TMPro;
 
 public class Welcome : MonoBehaviour
 {
-    
 
+
+    public GameObject CanvasWelcome = null;
+    public GameObject CanvasCredit = null;
+    public GameObject NoVRAllowed = null;
+    private IEnumerator coroutine;
 
     void Awake()
     {
@@ -57,7 +61,7 @@ public class Welcome : MonoBehaviour
                 Debug.Log("Starting XR...");
                 XRGeneralSettings.Instance.Manager.StartSubsystems();
                 //SceneManager.LoadScene(scene, LoadSceneMode.Single);
-                float progress = 0f;
+               // float progress = 0f;
 
                 AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
 
@@ -96,11 +100,25 @@ public class Welcome : MonoBehaviour
         XRGeneralSettings.Instance.Manager.DeinitializeLoader();
         Debug.Log("XR stopped completely.");
     }
-   
+
+    // every 2 seconds perform the print()
+    private IEnumerator WaitBeforeDisable(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        NoVRAllowed.SetActive(false);
+    }
+
     public void ButtonVR()
     {
         Debug.Log("Button VR");
-        StartCoroutine(StartXR("DemoScene"));
+        if (Application.platform != RuntimePlatform.Android)
+        {
+            NoVRAllowed.SetActive(true);
+            coroutine = WaitBeforeDisable(5.0f);
+            StartCoroutine(coroutine);
+        }
+        else
+            StartCoroutine(StartXR("DemoScene"));
     }
     public void ButtonNoVR()
     {
@@ -113,4 +131,14 @@ public class Welcome : MonoBehaviour
        Debug.Log("Button Quit");
        Application.Quit();
     }
+
+    public void ButtonCredits()
+    {
+        Debug.Log("Button Credits");
+
+        CanvasCredit.SetActive(true);
+        CanvasWelcome.SetActive(false);
+
+    }
+
 }
