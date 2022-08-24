@@ -15,9 +15,12 @@ public class Welcome : MonoBehaviour
     public GameObject CanvasCredit = null;
     public GameObject NoVRAllowed = null;
     private IEnumerator coroutine;
+    public SpriteRenderer GazeRingTimer;
+
 
     void Awake()
     {
+        GazeRingTimer.enabled = false;
     }
 
     // Start is called before the first frame update
@@ -29,17 +32,28 @@ public class Welcome : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        if (GazeRingTimer.enabled )
+        {
+            //Rotate gaze
+            GazeRingTimer.transform.Rotate(Vector3.forward, Time.deltaTime * 400);
+        }
     }
 
     private void StartNoXR(string scene)
     {
-        SceneManager.LoadScene(scene, LoadSceneMode.Single);
+
+        GazeRingTimer.enabled = true;
+        Debug.Log("StartNoXR async:" + GazeRingTimer.enabled);
+
+        //SceneManager.LoadScene(scene, LoadSceneMode.Single);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
+       // GazeRingTimer.enabled = false;
     }
 
 
     public IEnumerator StartXR(string scene)
     {
+        
         if (XRGeneralSettings.Instance == null)//probably in unity
         {
             Debug.Log("XRGeneralSettings.Instance=null");
@@ -58,6 +72,7 @@ public class Welcome : MonoBehaviour
             else
             */
             {
+                GazeRingTimer.enabled = true;
                 Debug.Log("Starting XR...");
                 XRGeneralSettings.Instance.Manager.StartSubsystems();
                 //SceneManager.LoadScene(scene, LoadSceneMode.Single);
@@ -81,7 +96,10 @@ public class Welcome : MonoBehaviour
                             yield return null;
                         }
                         else
+                        {
                             XRGeneralSettings.Instance.Manager.StartSubsystems();
+                            GazeRingTimer.enabled = false;
+                        }
                     }
                     yield return null;
                 }

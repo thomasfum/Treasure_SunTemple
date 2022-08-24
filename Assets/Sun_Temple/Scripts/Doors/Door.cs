@@ -142,7 +142,7 @@ namespace SunTemple
 					//{
 						if (IsLocked == false)
 						{
-							//Debug.Log("------------>Open");
+							Debug.Log("------------>Open");
 							cursor.SetCursorToDoor();
 							Player.GetComponent<CharController_Motor>().AllowMove(false);
 							if(fire_start_time==0)

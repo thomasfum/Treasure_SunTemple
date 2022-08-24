@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Management;
 
 public class Radar : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class Radar : MonoBehaviour
         float d= Mathf.Min(Dist / 10f,1f);
 
 
-        Debug.Log("===>" + name + ":" + Angle + "; " + Dist + ", "+d);
+        //Debug.Log("===>" + name + ":" + Angle + "; " + Dist + ", "+d);
 
         Vector3 movement = Vector3.zero;
         movement.y = 1 * Mathf.Cos(Angle *  Mathf.PI / 180) * d;
@@ -42,7 +43,14 @@ public class Radar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //manage unvisible screen part in VR
+        if (XRGeneralSettings.Instance != null)
+        {
+            if (XRGeneralSettings.Instance.Manager.isInitializationComplete)
+            {
+                circle.GetComponent<RectTransform>().localPosition += new Vector3(Screen.width / 30, 0, 0);
+            }
+        }
     }
 
     // Update is called once per frame

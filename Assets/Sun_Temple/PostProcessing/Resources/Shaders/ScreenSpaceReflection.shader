@@ -27,7 +27,7 @@ Shader "Hidden/Post FX/Screen Space Reflection"
         float2   _InvScreenSize;
 
 
-        //UNITY_DECLARE_DEPTH_TEXTURE(_CameraDepthTexture);
+        UNITY_DECLARE_DEPTH_TEXTURE(_CameraDepthTexture);
 
 
         float3   _CameraClipInfo;

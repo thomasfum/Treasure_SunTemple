@@ -9,8 +9,13 @@ namespace Sun_Temple{
 
 		private bool isLocked;
 
-		void Start(){
+		void Start()
+		{
 			isLocked = true;
+			if ((Application.platform == RuntimePlatform.WebGLPlayer)||((Application.platform == RuntimePlatform.WindowsEditor)))
+			{
+				isLocked = false;
+			}
 		}
 
 

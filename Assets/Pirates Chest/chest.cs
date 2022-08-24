@@ -124,13 +124,13 @@ public class chest : MonoBehaviour
                 }
             }
 
-
+            /*
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 open = true;
                 spawnTime = Time.time;
             }
-
+            */
 
             if (cursor != null)
             {
@@ -213,7 +213,7 @@ public class chest : MonoBehaviour
     {
         float d = Mathf.Abs(Vector3.Distance(transform.position, Player.transform.position));
         if (debug == true)
-            Debug.Log("D=" + d);
+            Debug.Log("Chest D=" + d);
         if (d <= MaxDistance_update)
         {
 
@@ -226,9 +226,11 @@ public class chest : MonoBehaviour
             //if (Physics.Raycast(Player.transform.position, Cam.transform.forward, out hit, MaxDistance_update*2))
             if (ChestCollider.Raycast(ray, out hit, MaxDistance_update))
             {
-                //if (debug == true)
-                //	Debug.Log(hit.transform.gameObject.name + "-" + this.gameObject.name);
-                //Debug.Log("------------>Open");
+                if (debug == true)
+                {
+                    Debug.Log(hit.transform.gameObject.name + "-" + this.gameObject.name);
+                    Debug.Log("------------>Open");
+                }
                 cursor.SetCursorToChest();
                 Player.GetComponent<CharController_Motor>().AllowMove(false);
                 if (fire_start_time == 0)

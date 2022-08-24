@@ -77,8 +77,8 @@ public class bl_Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     /// </summary>
     void Update()
     {
-        DeathAreaLocalPos = CenterReference.localPosition;
-        DeathAreaPos = CenterReference.position;
+      //  DeathAreaLocalPos = CenterReference.localPosition;
+      //  DeathAreaPos = CenterReference.position;
         //If this not free (not touched) then not need continue
         if (!isFree)
             return;
@@ -91,6 +91,7 @@ public class bl_Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             isFree = false;
             StickRect.localPosition = DeathAreaLocalPos;
         }
+        
     }
 
     /// <summary>
@@ -129,12 +130,13 @@ public class bl_Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             isFree = false;
             //Get Position of current touch
             Vector3 position = bl_JoystickUtils.TouchPosition(m_Canvas,GetTouchID);
+           // Debug.Log("--->In:" + position );
 
             StickRect.position = position;
             float d = Vector2.Distance(DeathAreaLocalPos, StickRect.localPosition);
-            //Debug.Log("--->In:" + StickRect.localPosition + " ; "+ DeathAreaLocalPos +"d="+ d+ "  r=" + radio);
+          //  Debug.Log("--->In:" + StickRect.localPosition + " ; "+ DeathAreaLocalPos +"d="+ d+ "  r=" + radio);
 
-
+            
             //Rotate into the area circumferential of joystick
             if (d < radio)
             {
@@ -144,11 +146,12 @@ public class bl_Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             else
             {
                 //Debug.Log("--->Out:" + StickRect.localPosition + " ; " + DeathAreaLocalPos + "d=" + d + "  r=" + radio);
-                // StickRect.position = DeathAreaPos + (position - DeathAreaPos).normalized;/* * radio*/;
+                // StickRect.position = DeathAreaPos + (position - DeathAreaPos).normalized;// * radio;
                  StickRect.localPosition = DeathAreaLocalPos + (StickRect.localPosition - DeathAreaLocalPos).normalized * radio;
 
                 // StickRect.position = position;
             }
+        
         }
     }
 
